@@ -1,6 +1,5 @@
 package io.quarkiverse.rocketmq.test.resorurce;
 
-import io.quarkiverse.rocketmq.client.runtime.reactive.MQProducer;
 import io.quarkiverse.rocketmq.client.runtime.reactive.ReactiveMQProducer;
 import io.quarkiverse.rocketmq.test.resorurce.entity.BizResult;
 import io.smallrye.mutiny.Uni;
@@ -14,20 +13,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import java.io.UnsupportedEncodingException;
 
-@Path("/mq")
-public class MqResource {
+@Path("/reactive/mq")
+public class ReactiveMqResource {
 
     /**
-     * 可以注入阻塞式api
+     * 可以注入响应式api
      * */
     @Inject
-    MQProducer producer;
+    ReactiveMQProducer producer;
 
     @Path("/send")
     @GET
-    public BizResult<SendResult> send(@QueryParam("content") String content) throws UnsupportedEncodingException {
+    public Uni<BizResult<SendResult>> send(@QueryParam("content") String content) throws UnsupportedEncodingException {
         Message message = new Message("reactive-mq", content.getBytes(RemotingHelper.DEFAULT_CHARSET));
-        SendResult send = producer.send(message);
-        return BizResult.create(send);
+        return producer.send(message).map(BizResult::create);
     }
 }

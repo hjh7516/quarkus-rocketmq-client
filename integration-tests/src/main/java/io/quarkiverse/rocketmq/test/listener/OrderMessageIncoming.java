@@ -19,7 +19,7 @@ public class OrderMessageIncoming {
 
     @RocketmqIncoming(configKey = "order", isOrderly = true)
     public Future<ConsumeOrderlyStatus> process(List<MessageExt> messageExts, ConsumeOrderlyContext context) {
-        log.info("OrderMessage, message[order] content [{}], context : {}", new String(messageExts.get(0).getBody()), JSON.toJSONString(context));
+        log.info("OrderMessage, message[order] content is {}, context : {}", new String(messageExts.get(0).getBody()), JSON.toJSONString(context));
 
         Promise<ConsumeOrderlyStatus> promise = Promise.promise();
         promise.complete(ConsumeOrderlyStatus.SUCCESS);

@@ -17,7 +17,7 @@ public class MessageIncoming {
 
     @RocketmqIncoming(configKey = "product")
     public Uni<ConsumeConcurrentlyStatus> process(List<MessageExt> messageExts, ConsumeConcurrentlyContext context) {
-        log.info("Normal MessageIncoming[product] content is {}, context: {}", new String(messageExts.get(0).getBody()), JSON.toJSONString(context));
+        log.info("Uni MessageIncoming[product] content is {}, context: {}", new String(messageExts.get(0).getBody()), JSON.toJSONString(context));
         return Uni.createFrom().item(ConsumeConcurrentlyStatus.CONSUME_SUCCESS);
     }
 
